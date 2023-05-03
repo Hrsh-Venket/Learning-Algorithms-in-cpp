@@ -10,13 +10,9 @@ using Eigen::MatrixXd;
 
 Eigen::VectorXd PCA(MatrixXd m){
   // Generate Covariance matrix 
-  // Eigen::MatrixXd centered = m.rowwise() - m.colwise().mean(); // subtract column means from each row
-  // Eigen::MatrixXd Cov = (1.0/(m.rows()-1)) * centered.adjoint() * centered; // calculate covariance matrix
-  // assert(Cov.rows() == Cov.cols() && "Covariance matrix is not square"); // this is a check
-  // std::cout << Cov;
-  MatrixXd Cov(2, 2);
-  m << 0.5, 0, 
-       0, 0.5;
+  Eigen::MatrixXd centered = m.rowwise() - m.colwise().mean(); // subtract column means from each row
+  Eigen::MatrixXd Cov = (1.0/(m.rows()-1)) * centered.adjoint() * centered; // calculate covariance matrix
+  assert(Cov.rows() == Cov.cols() && "Covariance matrix is not square"); // this is a check
   // find eigenvalues 
   Eigen::EigenSolver<Eigen::MatrixXd> solver(Cov);
   Eigen::VectorXd eigenvalues = solver.eigenvalues().real();
